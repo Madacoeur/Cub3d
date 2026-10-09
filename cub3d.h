@@ -6,12 +6,12 @@
 /*   By: aamroun <aamroun@learner.42.tech>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/09 19:32:16 by aamroun          ###   ########.fr       */
+/*   Updated: 2026/10/09 19:40:20 by aamroun          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
-# define CUB3d_H
+# define CUB3D_H
 
 # include <stdlib.h>
 # include <stdio.h>
