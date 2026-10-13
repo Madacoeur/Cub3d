@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/13 18:08:28 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/10/13 19:13:18 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,5 +35,15 @@ typedef struct s_game {
 int	init_game(t_game *game);
 int	close_game(t_game *game);
 int	key_press(int keycode, t_game *game);
+
+//typedef	struct s_game
+//{
+//		char	*no_texture;
+//		char	*so_texture;
+//		char	*ea_texture;
+//		char	*we_texture;
+//		char	*f_texture;
+//		char	*c_texture;
+//}	t_game
 
 #endif
