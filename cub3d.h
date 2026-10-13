@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamroun <aamroun@learner.42.tech>          +#+  +:+       +#+        */
+/*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/09 19:40:20 by aamroun          ###   ########.fr       */
+/*   Updated: 2026/10/13 18:08:28 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,11 @@
 # include <math.h>
 # include <X11/keysym.h>
 # include "mlx.h"
+#include <unistd.h>
+#include <fcntl.h>
+#include <string.h>
+#include "get_next_line.h"
+#include "libft.h"
 
 # define WIN_WIDTH 800
 # define WIN_HEIGHT 600
