@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: aamroun <aamroun@learner.42.tech>          +#+  +:+       +#+        */
+/*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:48:41 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/09 21:03:40 by aamroun          ###   ########.fr       */
+/*   Updated: 2026/10/16 13:53:08 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,12 +49,14 @@ int	key_press(int key_code, t_game *game)
 
 int	main(void)
 {
-	t_game game;
+	t_game	game;
+
 	if (init_game(&game) != 0)
 		return (1);
-	mlx_hook(game.win, 2, 1L<<0, (int (*)())(void (*)(void))key_press, &game);
-	//hook pour la croix rouge (evenement 17)
-	mlx_hook(game.win, 17, 1L<<17, (int (*)())(void (*)(void))close_game, &game);
+	mlx_hook(game.win, 2, 1L << 0, (int (*)())(void (*)(void))key_press, &game);
+	mlx_hook(game.win, 17, 1L << 17, (int (*)())(void (*)(void))close_game,
+		&game);
 	mlx_loop(game.mlx);
 	return (0);
 }
+// hook pour la croix rouge (evenement 17)
