@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/10/16 13:53:54 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/10/21 13:43:36 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,10 +26,20 @@ void	parse_texture(char *line, int *i, char **dest, int len)
 	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
 		(*i)++;
 	*dest = ft_substr(line, start, *i - start);
+	while (line[*i] == ' ' || line[*i] == '\t')
+        (*i)++;
+	if (line[*i])
+	{
+		write(2, "Error: Extra argument.\n", 23);
+    	exit(1);
+	}
 }
 // le i - start = si ton i avance avec i++ t'auras par ex i = 4 
 // et start = 0 et ta string totale fait 7, ca's'arrete a 4 
 // de longueur (dest = destination)
+// ligne 29 je reregarde s'il reste pas des tab ou espaces APRES que
+// j'ai recupere mes textures puis les caracteres aussi avec
+// if (line) donc si ca continue 
 
 int	map_exist(int ac, char **av, int *fd)
 {
@@ -69,9 +79,9 @@ int	read_map(int fd, t_game *game)
 		eof = strchr(line, '\n');
 		if (eof)
 			*eof = '\0';
-		textures_p1(line, game);
-		textures_p2(line, game);
-		colors(line, game);
+		if (!textures_p1(line, game) && !textures_p2(line, game)
+			&& !colors(line, game))
+			check_unknown_id(line, game, fd);
 		free(line);
 		line = get_next_line(fd);
 	}
@@ -80,3 +90,4 @@ int	read_map(int fd, t_game *game)
 		return (1);
 	return (0);
 }
+

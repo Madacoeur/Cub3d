@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/16 13:52:27 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/10/20 13:59:24 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,34 @@ int			init_game(t_game *game);
 int			close_game(t_game *game);
 int			key_press(int keycode, t_game *game);
 
-// typedef	struct s_game
-//{
-//		char	*no_texture;
-//		char	*so_texture;
-//		char	*ea_texture;
-//		char	*we_texture;
-//		char	*floor_color;
-//		char	*ceiling_color;
-//}	t_game
+typedef	struct s_game
+{
+		char	*no_texture;
+		char	*so_texture;
+		char	*ea_texture;
+		char	*we_texture;
+		char	*floor_color;
+		char	*ceiling_color;
+}	t_game
+
+//map_texture
+
+void	parsing(*line, int *i, char **dest, int len);
+int	map_exist(int ac, char **av, int *fd);
+int	read_map(int fd, t_game *game);
+
+
+//textures_colors
+
+int	textures_p1(char *line, t_game *game);
+int	textures_p2(char *line, t_game *game);
+int	colors(char *line, t_game *game);
+void check_unknown_id(char *line, t_game *game, int fd);
+
+
+//error_check
+
+void	double_def(char *name, char *element);
+int	check_textures(t_game *game);
 
 #endif
