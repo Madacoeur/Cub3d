@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/20 13:59:24 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/10/23 14:07:14 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,13 +43,15 @@ typedef	struct s_game
 		char	*so_texture;
 		char	*ea_texture;
 		char	*we_texture;
-		char	*floor_color;
-		char	*ceiling_color;
-}	t_game
+		int		floor_color[3];
+		int		ceiling_color[3];
+//		char	*floor_color;
+//		char	*ceiling_color;
+}	t_game;
 
 //map_texture
 
-void	parsing(*line, int *i, char **dest, int len);
+void	parse_texture(char *line, int *i, char **dest, int len);
 int	map_exist(int ac, char **av, int *fd);
 int	read_map(int fd, t_game *game);
 
@@ -65,6 +67,6 @@ void check_unknown_id(char *line, t_game *game, int fd);
 //error_check
 
 void	double_def(char *name, char *element);
-int	check_textures(t_game *game);
+int		check_textures(t_game *game);
 
 #endif
