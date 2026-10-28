@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/10/21 13:43:36 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/10/28 15:50:52 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,6 +34,8 @@ void	parse_texture(char *line, int *i, char **dest, int len)
     	exit(1);
 	}
 }
+// dans cette focntion on recupere uniquement une chaine et si y'a
+// plus d'une chaine c'est un arg en trop
 // le i - start = si ton i avance avec i++ t'auras par ex i = 4 
 // et start = 0 et ta string totale fait 7, ca's'arrete a 4 
 // de longueur (dest = destination)
