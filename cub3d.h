@@ -6,14 +6,14 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/10/28 19:13:08 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/10 17:51:34 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "get_next_line.h"
+# include "get_next_line.h" // fichiers a rajouter dans le dossier
 //# include "mlx.h"
 //# include <X11/keysym.h>
 # include <fcntl.h>

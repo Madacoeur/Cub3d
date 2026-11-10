@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/14 12:44:04 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/10/28 17:46:12 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/10 18:06:38 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,3 +57,25 @@ int	check_textures(t_game *game)
 	return (0);
 }
 // return (1) ou exit(1) si on arrete le programme net
+
+void check_unknown_id(char *line, t_game *game, int fd)
+{
+    int i;
+
+    i = 0;
+    while ((line[i] == ' ' || line[i] == '\t') && line[i])
+        i++;
+    if (line[i] && (!game->no_texture || !game->so_texture
+        || !game->ea_texture || !game->we_texture
+        || !game->f_already_def || !game->c_already_def))
+    {
+        write(2, "Error: Unknown identifier.\n", 27);
+        free(line);
+        close(fd);
+        exit(1);
+    }
+}
+//on regarde simplement si on a marque le bon nom ex NO SO etc 
+// on free et on close encore parce que y'a un exit qui arrete net
+// le programme donc fuites de donnees, si j'avais return j'aurai pas eu besoin
+// car seulement la fonction se serait arrete
