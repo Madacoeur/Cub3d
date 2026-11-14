@@ -4,22 +4,33 @@ CFLAGS      = -Wall -Wextra -Werror
 
 # Chemins et flags pour ta minilibx locale
 MLX_DIR     = ./minilibx-linux
+MLX_LIB     = $(MLX_DIR)/libmlx_Linux.a
 MLX_FLAGS   = -L$(MLX_DIR) -lmlx_Linux -lXext -lX11 -lm
 MLX_INC     = -I $(MLX_DIR)
 
-SRCS        = main.c
+HEADER      = cub3d.h
+SRCS        = main.c \
+              free.c \
+              utils.c \
+              fake_parsing.c
 OBJS        = $(SRCS:.c=.o)
 
 all: $(NAME)
 
 # Compile les .c en .o en incluant le bon chemin pour mlx.h
-%.o: %.c
+# (recompile aussi si cub3d.h change)
+%.o: %.c $(HEADER)
 	$(CC) $(CFLAGS) $(MLX_INC) -c $< -o $@
 
-# Compile d'abord la minilibx, puis ton exécutable
-$(NAME): $(OBJS)
+# Compile la minilibx seulement si l'archive n'existe pas encore
+$(MLX_LIB):
 	make -C $(MLX_DIR)
+
+# Lie l'executable seulement si un .o ou la minilibx a change (pas de relink)
+$(NAME): $(MLX_LIB) $(OBJS)
 	$(CC) $(CFLAGS) $(OBJS) $(MLX_FLAGS) -o $(NAME)
+
+bonus: all
 
 clean:
 	rm -f $(OBJS)
@@ -30,4 +41,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all bonus clean fclean re
