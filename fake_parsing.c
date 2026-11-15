@@ -70,7 +70,8 @@ int	fake_parsing(t_config *config)
 		|| !config->tex_path[TEX_WE] || !config->tex_path[TEX_EA])
 		return (1);
 	config->floor_color = (220 << 16) | (100 << 8) | 0;
-	config->ceil_color = (225 << 16) | (30 << 8) | 0;
+	// plafond bleu ciel : bien different du sol orange pour les tests
+	config->ceil_color = (100 << 16) | (150 << 8) | 255;
 	config->start_x = 4;
 	config->start_y = 3;
 	config->start_dir = 'N';

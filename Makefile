@@ -12,6 +12,8 @@ HEADER      = cub3d.h
 SRCS        = main.c \
               free.c \
               utils.c \
+              draw.c \
+              render.c \
               fake_parsing.c
 OBJS        = $(SRCS:.c=.o)
 

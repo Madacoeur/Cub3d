@@ -119,6 +119,13 @@ void	ft_bzero(void *s, size_t n);
 size_t	ft_strlen(const char *s);
 char	*ft_strdup(const char *s);
 
+/* draw.c */
+void	put_pixel(t_img *img, int x, int y, int color);
+void	draw_floor_ceiling(t_game *game);
+
+/* render.c */
+int		render(t_game *game);
+
 /* fake_parsing.c (temporaire, remplace par le parsing du binome) */
 int		fake_parsing(t_config *config);
 
