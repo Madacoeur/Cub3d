@@ -35,18 +35,18 @@ size_t	ft_strlen(const char *s)
 
 char	*ft_strdup(const char *s)
 {
-	char	*dup;
+	char	*res;
 	size_t	i;
 
-	dup = malloc(ft_strlen(s) + 1);
-	if (!dup)
+	res = malloc(ft_strlen(s) + 1);
+	if (!res)
 		return (NULL);
 	i = 0;
 	while (s[i])
 	{
-		dup[i] = s[i];
+		res[i] = s[i];
 		i++;
 	}
-	dup[i] = '\0';
-	return (dup);
+	res[i] = '\0';
+	return (res);
 }

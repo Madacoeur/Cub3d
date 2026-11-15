@@ -20,6 +20,15 @@ int	init_game(t_game *game)
 	game->win = mlx_new_window(game->mlx, WIN_WIDTH, WIN_HEIGHT, "cub3D");
 	if (!game->win)
 		return (1);
+	game->screen.ptr = mlx_new_image(game->mlx, WIN_WIDTH, WIN_HEIGHT);
+	if (!game->screen.ptr)
+		return (1);
+	game->screen.addr = mlx_get_data_addr(game->screen.ptr,
+			&game->screen.bpp, &game->screen.line_len, &game->screen.endian);
+	if (!game->screen.addr)
+		return (1);
+	game->screen.width = WIN_WIDTH;
+	game->screen.height = WIN_HEIGHT;
 	return (0);
 }
 
