@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/14 12:44:04 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/10 18:06:38 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/16 18:50:58 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,7 +41,7 @@ void	double_def_col(char *name, int color)
 }
 // color == 1 genre y'a deja un element de defini
 
-void init(t_game *game)
+void init_struct(t_game *game)
 {
 	*game = (t_game){0};
 }
@@ -75,7 +75,7 @@ void check_unknown_id(char *line, t_game *game, int fd)
         exit(1);
     }
 }
-//on regarde simplement si on a marque le bon nom ex NO SO etc 
+// on regarde simplement si on a marque le bon nom ex NO SO etc 
 // on free et on close encore parce que y'a un exit qui arrete net
 // le programme donc fuites de donnees, si j'avais return j'aurai pas eu besoin
 // car seulement la fonction se serait arrete

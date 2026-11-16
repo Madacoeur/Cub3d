@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/23 13:03:00 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/10/28 18:40:34 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/16 19:02:22 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,9 +85,9 @@ int	check_colors(char *line, t_game *game)
     && (line[i + 1] == ' ' || line[i + 1] == '\t'))
 	{
         if (line[i] == 'F')
-        double_def_col("F", game->f_already_def);
+            double_def_col("F", game->f_already_def);
 		else
-        double_def_col("C", game->c_already_def);
+            double_def_col("C", game->c_already_def);
 		if (!parse_color(line, game))
 		{
             write(2, "Error: Invalid color.\n", 22);

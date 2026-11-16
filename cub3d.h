@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/11/10 17:51:34 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/16 19:05:47 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,9 +42,12 @@ typedef	struct s_game
 // pour initialiser les pointeurs a NULL comme ca on rempli par sur qql chose de deja rempli
 // les already def c'est juste pour voir si ca a deja ete declare
 
+// Parce que tes couleurs sont des tableaux (int[3]), elles ne sont jamais NULL (contrairement aux chaînes de caractères des textures).
+// Sans flag, ton programme ne peut pas deviner si le tableau a déjà été rempli ou s'il contient juste des valeurs par défaut. Le flag sert
+// juste de témoin : "C'est bon, cette couleur a déjà été définie plus haut".
 
 /* --- Initialisation & Erreurs --- */
-void	init(t_game *game);
+void	init_struct(t_game *game);
 void	double_def_tex(char *name, char *texture);
 void	double_def_col(char *name, int color);
 int		check_textures(t_game *game);
