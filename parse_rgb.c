@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/23 13:03:00 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/16 19:02:22 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/20 17:58:11 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int rgb_loop(char *line, t_game *game, int *i, char type)
         if (!parse_rgb_value(line, i, &stock))
             return (0);
         if (type == 'F')
-            game->floor_color[j] = stock; //ici je stocke directement dans ma struct
+            game->floor_color[j] = stock; //ici je stocke le copie dans ma struct
         else
             game->ceiling_color[j] = stock; //on met [j] parce que dans la strutc on est sur [3] donc ca n'ecrase pas les 3 valeurs RGB mais les prend chacune leur tour
         if (!rgb_separator(line, i, j))
@@ -71,52 +71,21 @@ int rgb_loop(char *line, t_game *game, int *i, char type)
 // on doit faire les couleurs RGB donc c'est la meme logique trois fois
 // d'abord pour Red jusqu'a la virgule puis, Green et enfin, Blue
 
-
-int	check_colors(char *line, t_game *game)
-{
-    int		i;
-    
-	i = 0;
-	while (line[i] == ' ' || line[i] == '\t')
-    i++;
-	if (!line[i])
-    return (1);
-	if ((line[i] == 'F' || line[i] == 'C')
-    && (line[i + 1] == ' ' || line[i + 1] == '\t'))
-	{
-        if (line[i] == 'F')
-            double_def_col("F", game->f_already_def);
-		else
-            double_def_col("C", game->c_already_def);
-		if (!parse_color(line, game))
-		{
-            write(2, "Error: Invalid color.\n", 22);
-			exit(1);
-		}
-		return (1);
-	}
-	return (0);
-}
-// colors : repere si la ligne correspond a F ou C,
-// verifie les doublons et lance le parsing de la couleur
-
 int parse_color(char *line, t_game *game)
 {
     int i;
-    int j;
     char type;
     
     i = 0;
-    j = 0;
     while (line[i] == '\t' || line[i] == ' ')
-    i++;
+        i++;
     type = line[i]; // on memorise les caracteres F ou C
-    i++;
+    i++; // saute le caractere
     return (rgb_loop(line, game, &i, type));
 }
 // ok donc imaginons j'ai 'F', je selectionne F et je le mets de cote
 // (je le stock), puis quand je vais lire les chiffres donc valeurs RGB
-// je vais attribuer a la couleur correspondante
+// je vais attribuer a la couleur correspondante comme ca rgb_loop rempli les bonnes valeurs dans la bonne couleur de floor ou ceiling
 
 
 //* *stock = stock * 10 + line[*i] - 48; pour cette ligne c'est comme dans atoi

@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/16 18:42:18 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/20 18:04:11 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	map_exist(int ac, char **av, int *fd)
 		return (1);
 	}
 	len = ft_strlen(av[1]);
-	if (len < 4 || strncmp(&av[1][len - 4], ".cub", 4) != 0)
+	if (len < 4 || ft_strncmp(&av[1][len - 4], ".cub", 4) != 0)
 	{
 		write(2, "Error: Invalid file extension.\n", 31);
 		return (1);
@@ -78,11 +78,11 @@ int	read_map(int fd, t_game *game)
 	line = get_next_line(fd);
 	while (line)
 	{
-		eof = strchr(line, '\n');
+		eof = ft_strchr(line, '\n');
 		if (eof)
 			*eof = '\0';
 		if (!textures_p1(line, game) && !textures_p2(line, game)
-			&& !colors(line, game))
+			&& !check_colors(line, game))
 			check_unknown_id(line, game, fd);
 		free(line);
 		line = get_next_line(fd);

@@ -6,14 +6,14 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/11/16 19:05:47 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/20 18:06:57 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef CUB3D_H
 # define CUB3D_H
 
-# include "get_next_line.h" // fichiers a rajouter dans le dossier
+//# include "get_next_line.h" // fichiers a rajouter dans le dossier
 //# include "mlx.h"
 //# include <X11/keysym.h>
 # include <fcntl.h>
@@ -63,10 +63,20 @@ int		textures_p2(char *line, t_game *game);
 void	parse_texture(char *line, int *i, char **dest, int len);
 
 /* --- Couleurs RGB --- */
-int		colors(char *line, t_game *game);
+int		check_colors(char *line, t_game *game);
 int		parse_color(char *line, t_game *game);
 int		rgb_loop(char *line, t_game *game, int *i, char type);
 int		parse_rgb_value(char *line, int *i, int *stock);
 int		rgb_separator(char *line, int *i, int j);
+
+/* --- Flood Fill & Map --- */
+int		flood_fill(char **grid, int height, int width, int y, int x);
+int		find_player(char **map, int height, int *py, int *px);
+char	**copy_grid(char **map, int height);
+int		map_closed_verif(char **map, int height, int width);
+int		valid_map_char(char c);
+int		check_map_chars(char **map, int height);
+int		character_pos(char c);
+void	free_grid(char **grid, int height);
 
 #endif
