@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 17:23:40 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/20 18:02:23 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/24 16:29:25 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,42 +18,67 @@ int	valid_map_char(char c)
 		|| c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-int	check_map_chars(char **map, int height)
-{
-	int	y;
-	int	x;
-
-	y = 0;
-	while (y < height)
-	{
-		x = 0;
-		while (map[y][x])
-		{
-			if (!valid_map_char(map[y][x]))
-				return (0);
-			x++;
-		}
-		y++;
-	}
-	return (1);
-}
-
 int	character_pos(char c)
 {
 	return (c == 'N' || c == 'S' || c == 'E' || c == 'W');
 }
 
-void	free_grid(char **grid, int height)
+int	validate_map(t_game *game)
+{
+	int	y;
+	int	x;
+	int	players;
+
+	if (!validate_map_lines(game))
+		return (0);
+	y = 0;
+	players = 0;
+	while (y < game->height)
+	{
+		x = 0;
+		while (game->map[y][x])
+		{
+			if (!valid_map_char(game->map[y][x]))
+				return (0);
+			if (character_pos(game->map[y][x]))
+				players++;
+			x++;
+		}
+		y++;
+	}
+	return (players == 1); // si c'est bien un seul player donc le booleen est correct ca renvoie direct 1
+}
+// sert a verifier que la map est valide en verifiant que toutes les lignes existent,
+// que tous les caracteres sont valides et qu'il y a exactement un joueur
+
+int	validate_map_lines(t_game *game)
+{
+	int	y;
+	
+	if (!game->map || game->height <= 0)
+	return (0);
+	y = 0;
+	while (y < game->height)
+	{
+		if (!game->map[y])
+		return (0);
+		y++;
+	}
+	return (1);
+}
+
+void	free_grid(char **grid, t_game *game)
 {
 	int	y;
 
 	if (!grid)
 		return ;
 	y = 0;
-	while (y < height)
+	while (y < game->height)
 	{
 		free(grid[y]);
 		y++;
 	}
 	free(grid);
 }
+// verifie que les lignes existent

@@ -6,15 +6,15 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 13:29:31 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/20 18:05:39 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/24 16:30:32 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-int	flood_fill(char **grid, int height, int width, int y, int x)
+int	flood_fill(char **grid, t_game *game, int y, int x)
 {
-	if (y < 0 || y >= height || x < 0 || x >= width)
+	if (y < 0 || y >= game->height || x < 0 || x >= game->width)
 		return (0);
     if (x >= (int)ft_strlen(grid[y])) // verifie si x depasse la fin de la ligne grid[y] ou tombe sur '\0'
 		return (0);
@@ -24,17 +24,16 @@ int	flood_fill(char **grid, int height, int width, int y, int x)
 		// y'a pas eu de 1 pour fermer donc map ouverte alors soucis
 		return (0);
 	grid[y][x] = 'V';
-	if (!flood_fill(grid, height, width, y - 1, x))
+	if (!flood_fill(grid, game, y - 1, x))
 		return (0);
-	if (!flood_fill(grid, height, width, y + 1, x))
+	if (!flood_fill(grid, game, y + 1, x))
 		return (0);
-	if (!flood_fill(grid, height, width, y, x - 1))
+	if (!flood_fill(grid, game, y, x - 1))
 		return (0);
-	if (!flood_fill(grid, height, width, y, x + 1))
+	if (!flood_fill(grid, game, y, x + 1))
 		return (0);
 	return (1);
 }
-
 // y - 1 : la case au-dessus (ligne précédente).
 // y + 1 : la case en dessous (ligne suivante).
 // x - 1 : la case à gauche.
@@ -42,8 +41,7 @@ int	flood_fill(char **grid, int height, int width, int y, int x)
 // donc si c'est aucune de ces possibilites dans le code, la map est ouverte quelque part
 // floodfill sert a regarder si la map est fermee en verifiant bien de passer sur les cases jouables une seule fois
 
-
-int	find_player(char **map, int height, int *py, int *px)
+int	find_player(t_game *game, int *py, int *px)
 {
 	int	y;
 	int	x;
@@ -51,12 +49,12 @@ int	find_player(char **map, int height, int *py, int *px)
 	*py = -1;
 	*px = -1;
 	y = 0;
-	while (y < height && *py == -1)
+	while (y < game->height && *py == -1)
 	{
 		x = 0;
-		while (map[y][x])
+		while (game->map[y][x])
 		{
-			if (character_pos(map[y][x]))
+			if (character_pos(game->map[y][x]))
 			{
 				*py = y;
 				*px = x;
@@ -71,18 +69,18 @@ int	find_player(char **map, int height, int *py, int *px)
 	return (1);
 }
 
-char	**copy_grid(char **map, int height)
+char	**copy_grid(t_game	*game)
 {
 	char	**grid;
 	int		y;
 
-	grid = malloc(sizeof(char *) * (height + 1));
+	grid = malloc(sizeof(char *) * (game->height + 1));
 	if (!grid)
 		return (NULL);
 	y = 0;
-	while (y < height)
+	while (y < game->height)
 	{
-		grid[y] = ft_strdup(map[y]);
+		grid[y] = ft_strdup(game->map[y]);
 		if (!grid[y]) //si strdup a echoue
 		{
 			while (--y >= 0) //on part de la fin pour garder les lignes deja alouees avant le crash comme ca on peut les free
@@ -92,24 +90,24 @@ char	**copy_grid(char **map, int height)
 		}
 		y++;
 	}
-	grid[height] = NULL; //terminer le tableau de lignes par un pointeur NULL pour eviter les erreurs de lecture
+	grid[game->height] = NULL; //terminer le tableau de lignes par un pointeur NULL pour eviter les erreurs de lecture
 	return (grid);
 }
 
-int	map_closed_verif(char **map, int height, int width)
+int	map_closed_verif(t_game *game)
 {
 	char	**grid;
 	int		py;
 	int		px;
-    int     is_closed;
+	int		is_closed;
 
-	if (!check_map_chars(map, height) || !find_player(map, height, &py, &px))
+	if (!find_player(game, &py, &px))
 		return (0);
-	grid = copy_grid(map, height);
+	grid = copy_grid(game);
 	if (!grid)
 		return (0);
-	is_closed = flood_fill(grid, height, width, py, px);
-	free_grid(grid, height);
+	is_closed = flood_fill(grid, game, py, px);
+	free_grid(grid, game);
 	return (is_closed);
 }
 

@@ -6,90 +6,80 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/20 18:04:11 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/24 16:25:39 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-//*i car on modifie l'original
-void	parse_texture(char *line, int *i, char **dest, int len)
-{
-	int	start;
-
-	*i += len;
-	while (line[*i] == ' ' || line[*i] == '\t')
-		(*i)++;
-	if (!line[*i])
-		return ;
-	start = *i;
-	while (line[*i] && line[*i] != ' ' && line[*i] != '\t')
-		(*i)++;
-	*dest = ft_substr(line, start, *i - start);
-	while (line[*i] == ' ' || line[*i] == '\t')
-        (*i)++;
-	if (line[*i])
-	{
-		write(2, "Error: Extra argument.\n", 23);
-    	exit(1);
-	}
-}
-// dans cette focntion on recupere uniquement une chaine et si y'a
-// plus d'une chaine c'est un arg en trop
-// le i - start = si ton i avance avec i++ t'auras par ex i = 4 
-// et start = 0 et ta string totale fait 7, ca's'arrete a 4 
-// de longueur (dest = destination)
-// ligne 29 je reregarde s'il reste pas des tab ou espaces APRES que
-// j'ai recupere mes textures puis les caracteres aussi avec
-// if (line) donc si ca continue 
-
-int	map_exist(int ac, char **av, int *fd)
+static void	update_map_width(t_game *game, char *line)
 {
 	int	len;
 
-	if (ac != 2)
-	{
-		write(2, "Error: Wrong arguments number.\n", 31);
-		return (1);
-	}
-	len = ft_strlen(av[1]);
-	if (len < 4 || ft_strncmp(&av[1][len - 4], ".cub", 4) != 0)
-	{
-		write(2, "Error: Invalid file extension.\n", 31);
-		return (1);
-	}
-	*fd = open(av[1], O_RDONLY);
-	if (*fd < 0)
-	{
-		write(2, "Error: Fail to open file.\n", 26);
-		return (1);
-	}
-	return (0);
+	len = (int)ft_strlen(line);
+	if (len > game->width)
+		game->width = len; //si la longueur de la ligne ajoutee est superieur a la lngr totale de la map alors ca remplace
 }
-// on verifie que c'est bien un fichier .cub en comparant la
-// longueur des strings qu'on lui donne avec les 4 caracteres de ".cub"
-// on ouvre le fichier pour le lire seulement
+
+static int	add_map_line(t_game *game, char *line)
+{
+	char		**new_map;
+	int					i;
+
+	new_map = malloc(sizeof(char *) * (game->height + 2));
+	if (!new_map)
+		//free_grid(game->map, game);
+		//game->map = NULL; // on remet a NULL pour bien nettoyer
+		return (0);
+	i = 0;
+	while (i < game->height)
+	{
+		new_map[i] = game->map[i]; // recopie l'ancien tab d'adresses dans la nouvelle map
+		i++;
+	}
+	new_map[i] = line; // place la nvlle ligne a la fin 
+	new_map[i + 1] = NULL; // apres la nvlle ligne on s'arrete la
+	free(game->map);
+	game->map = new_map; // remplace l'ancien tab d'adresses apres s'en etre debarrasse avec le free
+	game->height++;
+	update_map_width(game, line);
+	return (1);
+}
+// on aggrandi le tableau petit a petit avec ca parce qu'on a pas une taille decise du tableau
+
+static void	handle_config_line(char *line, t_game *game, int fd)
+{
+	if (!textures_p1(line, game) && !textures_p2(line, game)
+		&& !check_colors(line, game))
+		check_unknown_id(line, game, fd);
+	free(line);
+}
 
 int	read_map(int fd, t_game *game)
 {
 	char	*line;
-	char	*eof;
 
 	line = get_next_line(fd);
 	while (line)
 	{
-		eof = ft_strchr(line, '\n');
-		if (eof)
-			*eof = '\0';
-		if (!textures_p1(line, game) && !textures_p2(line, game)
-			&& !check_colors(line, game))
-			check_unknown_id(line, game, fd);
-		free(line);
+		remove_newline(line);
+		if (is_map_line(line, game))
+		{
+			if (!add_map_line(game, line))
+				return (free(line), close(fd), 1);
+		}
+		else
+			handle_config_line(line, game, fd);
 		line = get_next_line(fd);
 	}
 	close(fd);
 	if (check_textures(game))
+		return (free_grid(game->map, game), game->map = NULL, 1);
+	if (!game->map || game->height == 0)
 		return (1);
+	if (!validate_map(game))
+		return (free_grid(game->map, game), game->map = NULL, 1);
+	if (!map_closed_verif(game))
+		return (free_grid(game->map, game), game->map = NULL, 1);
 	return (0);
 }
-
