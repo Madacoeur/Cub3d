@@ -14,6 +14,8 @@ SRCS        = main.c \
               utils.c \
               draw.c \
               render.c \
+              player.c \
+              raycast.c \
               fake_parsing.c
 OBJS        = $(SRCS:.c=.o)
 

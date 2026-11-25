@@ -26,6 +26,10 @@
 
 # define MOVE_SPEED 0.05
 # define ROT_SPEED 0.03
+# define FOV_PLANE 0.66
+
+# define WALL_COLOR_X 0xB0B0B0
+# define WALL_COLOR_Y 0x707070
 
 # define TEX_NO 0
 # define TEX_SO 1
@@ -121,10 +125,16 @@ char	*ft_strdup(const char *s);
 
 /* draw.c */
 void	put_pixel(t_img *img, int x, int y, int color);
-void	draw_floor_ceiling(t_game *game);
+void	draw_column(t_game *game, t_ray *ray, int x);
 
 /* render.c */
 int		render(t_game *game);
+
+/* player.c */
+void	init_player(t_game *game);
+
+/* raycast.c */
+void	cast_ray(t_game *game, t_ray *ray, int x);
 
 /* fake_parsing.c (temporaire, remplace par le parsing du binome) */
 int		fake_parsing(t_config *config);

@@ -59,6 +59,8 @@ int	main(int argc, char **argv)
 	(void)argv;
 	if (fake_parsing(&game.config))
 		exit_error(&game, "parsing failed");
+	// position et orientation de depart du joueur (lues dans config)
+	init_player(&game);
 	if (init_game(&game))
 		exit_error(&game, "mlx initialisation failed");
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);

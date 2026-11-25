@@ -27,27 +27,36 @@ void	put_pixel(t_img *img, int x, int y, int color)
 	*(unsigned int *)dst = color;
 }
 
-// moitie haute de l'ecran = plafond, moitie basse = sol
-void	draw_floor_ceiling(t_game *game)
+// dessine la colonne x de l'ecran, de haut en bas : plafond, mur, sol
+// plus le mur est loin (real_wall_dist grand), plus la bande est petite
+void	draw_column(t_game *game, t_ray *ray, int x)
 {
-	int	x;
+	int	line_h;
+	int	start;
+	int	end;
 	int	y;
 	int	color;
 
+	// securite : evite une division par 0 si on est colle au mur
+	if (ray->real_wall_dist < 0.0001)
+		ray->real_wall_dist = 0.0001;
+	// hauteur du mur a l'ecran, centree verticalement
+	line_h = (int)(WIN_HEIGHT / ray->real_wall_dist);
+	start = WIN_HEIGHT / 2 - line_h / 2;
+	end = WIN_HEIGHT / 2 + line_h / 2;
+	// couleur unie : plus sombre sur les cotes nord/sud pour voir le relief
+	color = WALL_COLOR_X;
+	if (ray->side == 1)
+		color = WALL_COLOR_Y;
 	y = 0;
 	while (y < WIN_HEIGHT)
 	{
-		// au-dessus du milieu : plafond, en dessous : sol
-		color = game->config.ceil_color;
-		if (y >= WIN_HEIGHT / 2)
-			color = game->config.floor_color;
-		// on colorie toute la ligne y, de gauche a droite
-		x = 0;
-		while (x < WIN_WIDTH)
-		{
+		if (y < start)
+			put_pixel(&game->screen, x, y, game->config.ceil_color);
+		else if (y <= end)
 			put_pixel(&game->screen, x, y, color);
-			x++;
-		}
+		else
+			put_pixel(&game->screen, x, y, game->config.floor_color);
 		y++;
 	}
 }
