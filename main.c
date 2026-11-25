@@ -63,6 +63,9 @@ int	main(int argc, char **argv)
 	init_player(&game);
 	if (init_game(&game))
 		exit_error(&game, "mlx initialisation failed");
+	// charge les 4 fichiers .xpm (erreur si un chemin est faux)
+	if (load_textures(&game))
+		exit_error(&game, "cannot load a wall texture (NO, SO, WE or EA)");
 	mlx_hook(game.win, 2, 1L << 0, key_press, &game);
 	mlx_hook(game.win, 17, 0, close_game, &game);
 	// la mlx appellera render() en boucle, des qu'elle n'a rien a faire

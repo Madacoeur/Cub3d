@@ -28,9 +28,6 @@
 # define ROT_SPEED 0.03
 # define FOV_PLANE 0.66
 
-# define WALL_COLOR_X 0xB0B0B0
-# define WALL_COLOR_Y 0x707070
-
 # define TEX_NO 0
 # define TEX_SO 1
 # define TEX_WE 2
@@ -97,6 +94,15 @@ typedef struct s_ray
 	int		side;
 }	t_ray;
 
+typedef struct s_wall
+{
+	t_img	*tex;
+	int		tex_x;
+	int		line_h;
+	int		start;
+	int		end;
+}	t_wall;
+
 typedef struct s_game
 {
 	void		*mlx;
@@ -129,6 +135,10 @@ void	draw_column(t_game *game, t_ray *ray, int x);
 
 /* render.c */
 int		render(t_game *game);
+
+/* textures.c */
+int		load_textures(t_game *game);
+int		get_tex_pixel(t_img *tex, int x, int y);
 
 /* player.c */
 void	init_player(t_game *game);
