@@ -6,19 +6,11 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/24 16:36:20 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/24 16:40:54 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 17:03:25 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
-
-static void	free_textures(t_game *game)
-{
-	free(game->no_texture);
-	free(game->so_texture);
-	free(game->ea_texture);
-	free(game->we_texture);
-}
 
 static void	print_map(t_game *game)
 {

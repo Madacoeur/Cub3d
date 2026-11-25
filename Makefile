@@ -6,7 +6,7 @@
 #    By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2026/10/10 13:11:48 by rzimaeva          #+#    #+#              #
-#    Updated: 2026/11/24 16:45:13 by rzimaeva         ###   ########.fr        #
+#    Updated: 2026/11/25 17:04:59 by rzimaeva         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -29,6 +29,7 @@ SRCS	=	main.c \
 			errors_check.c \
 			floodfill_utils.c \
 			floodfill.c \
+			free.c \
 			map_texture_utils.c \
 			map_texture.c \
 			parse_rgb.c \

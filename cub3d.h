@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/11/24 16:43:01 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 17:12:50 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ typedef	struct s_game
 // juste de témoin : "C'est bon, cette couleur a déjà été définie plus haut".
 
 /* errors_check.c */
-void	double_def_tex(char *name, char *texture);
-void	double_def_col(char *name, int color);
+void	double_def_tex(char *name, char *texture, t_game *game, int fd);
+void	double_def_col(char *name, int color, t_game *game, int fd);
 void	init_struct(t_game *game);
 int		check_textures(t_game *game);
 void	check_unknown_id(char *line, t_game *game, int fd);
@@ -62,13 +62,19 @@ int		valid_map_char(char c);
 int		character_pos(char c);
 int		validate_map(t_game *game);
 int		validate_map_lines(t_game *game);
-void	free_grid(char **grid, t_game *game);
 
 /* floodfill.c */
 int		flood_fill(char **grid, t_game *game, int y, int x);
 int		find_player(t_game *game, int *py, int *px);
 char	**copy_grid(t_game *game);
 int		map_closed_verif(t_game *game);
+
+/* free.c */
+void	free_grid(char **grid, t_game *game);
+void	free_textures(t_game *game);
+void	cleanup_parsing(t_game *game, int fd);
+void	empty_gnl(int fd);
+
 
 /* map_texture_utils.c */
 void	parse_texture(char *line, int *i, char **dest, int len);
@@ -86,8 +92,8 @@ int		rgb_loop(char *line, t_game *game, int *i, char type);
 int		parse_color(char *line, t_game *game);
 
 /* textures_colors.c */
-int		textures_p1(char *line, t_game *game);
-int		textures_p2(char *line, t_game *game);
-int		check_colors(char *line, t_game *game);
+int		textures_p1(char *line, t_game *game, int fd);
+int		textures_p2(char *line, t_game *game, int fd);
+int		check_colors(char *line, t_game *game, int fd);
 
 #endif

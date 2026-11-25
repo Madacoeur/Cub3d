@@ -6,19 +6,20 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/14 12:44:04 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/16 18:50:58 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 17:09:46 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "cub3d.h"
 
-void	double_def_tex(char *name, char *texture)
+void	double_def_tex(char *name, char *texture, t_game *game, int fd)
 {
 	if (texture != NULL)
 	{
 		write(2, "Error: Double definition of ", 28);
 		write(2, name, ft_strlen(name));
 		write(2, ".\n", 2);
+		cleanup_parsing(game, fd);
 		exit(1);
 	}
 }
@@ -29,13 +30,14 @@ void	double_def_tex(char *name, char *texture)
 // on arrete le programme direct parce qu'avec return la fonction
 // s'arrete mais le programme continue
 
-void	double_def_col(char *name, int color)
+void	double_def_col(char *name, int color, t_game *game, int fd)
 {
 	if (color == 1)
 	{
 		write(2, "Error: Double definition of ", 28);
 		write(2, name, ft_strlen(name));
 		write(2, ".\n", 2);
+		cleanup_parsing(game, fd);
 		exit(1);
 	}
 }
@@ -71,7 +73,7 @@ void check_unknown_id(char *line, t_game *game, int fd)
     {
         write(2, "Error: Unknown identifier.\n", 27);
         free(line);
-        close(fd);
+        cleanup_parsing(game, fd);
         exit(1);
     }
 }

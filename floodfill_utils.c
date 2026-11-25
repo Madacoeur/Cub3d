@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 17:23:40 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/24 16:29:25 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 16:57:04 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,19 +66,3 @@ int	validate_map_lines(t_game *game)
 	}
 	return (1);
 }
-
-void	free_grid(char **grid, t_game *game)
-{
-	int	y;
-
-	if (!grid)
-		return ;
-	y = 0;
-	while (y < game->height)
-	{
-		free(grid[y]);
-		y++;
-	}
-	free(grid);
-}
-// verifie que les lignes existent

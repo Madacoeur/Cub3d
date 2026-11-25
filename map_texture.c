@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/24 16:25:39 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 17:14:38 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,8 +49,8 @@ static int	add_map_line(t_game *game, char *line)
 
 static void	handle_config_line(char *line, t_game *game, int fd)
 {
-	if (!textures_p1(line, game) && !textures_p2(line, game)
-		&& !check_colors(line, game))
+	if (!textures_p1(line, game, fd) && !textures_p2(line, game, fd)
+		&& !check_colors(line, game, fd))
 		check_unknown_id(line, game, fd);
 	free(line);
 }
@@ -66,7 +66,7 @@ int	read_map(int fd, t_game *game)
 		if (is_map_line(line, game))
 		{
 			if (!add_map_line(game, line))
-				return (free(line), close(fd), 1);
+				return (free(line), cleanup_parsing(game, fd), 1);
 		}
 		else
 			handle_config_line(line, game, fd);
@@ -74,12 +74,12 @@ int	read_map(int fd, t_game *game)
 	}
 	close(fd);
 	if (check_textures(game))
-		return (free_grid(game->map, game), game->map = NULL, 1);
+		return (cleanup_parsing(game, -1), 1);
 	if (!game->map || game->height == 0)
-		return (1);
+		return (cleanup_parsing(game, -1), 1);
 	if (!validate_map(game))
-		return (free_grid(game->map, game), game->map = NULL, 1);
+		return (cleanup_parsing(game, -1), 1);
 	if (!map_closed_verif(game))
-		return (free_grid(game->map, game), game->map = NULL, 1);
+		return (cleanup_parsing(game, -1), 1);
 	return (0);
 }

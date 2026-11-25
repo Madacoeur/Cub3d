@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 13:29:31 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/24 16:30:32 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/25 16:50:56 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,6 +94,26 @@ char	**copy_grid(t_game	*game)
 	return (grid);
 }
 
+static int	check_isolated_zeros(char **grid, t_game *game)
+{
+	int	y;
+	int	x;
+
+	y = 0;
+	while (y < game->height)
+	{
+		x = 0;
+		while (grid[y][x])
+		{
+			if (grid[y][x] == '0' && !flood_fill(grid, game, y, x))
+				return (0);
+			x++;
+		}
+		y++;
+	}
+	return (1);
+}
+
 int	map_closed_verif(t_game *game)
 {
 	char	**grid;
@@ -102,12 +122,16 @@ int	map_closed_verif(t_game *game)
 	int		is_closed;
 
 	if (!find_player(game, &py, &px))
-		return (0);
+		return (ft_putstr_fd("Error: Invalid map\n", 2), 0);
 	grid = copy_grid(game);
 	if (!grid)
 		return (0);
 	is_closed = flood_fill(grid, game, py, px);
+	if (is_closed)
+		is_closed = check_isolated_zeros(grid, game);
 	free_grid(grid, game);
+	if (!is_closed)
+		ft_putstr_fd("Error: Map is not closed\n", 2);
 	return (is_closed);
 }
 
