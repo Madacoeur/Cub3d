@@ -1,6 +1,6 @@
 NAME        = cub3D
 CC          = cc
-CFLAGS      = -Wall -Wextra -Werror
+CFLAGS      = -Wall -Wextra -Werror -std=gnu17
 
 # Chemins et flags pour ta minilibx locale
 MLX_DIR     = ./minilibx-linux
@@ -28,7 +28,7 @@ all: $(NAME)
 
 # Compile la minilibx seulement si l'archive n'existe pas encore
 $(MLX_LIB):
-	make -C $(MLX_DIR)
+	make -C $(MLX_DIR) CC="cc -std=gnu17"
 
 # Lie l'executable seulement si un .o ou la minilibx a change (pas de relink)
 $(NAME): $(MLX_LIB) $(OBJS)
