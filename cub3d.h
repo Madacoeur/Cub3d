@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/10/09 19:27:16 by aamroun           #+#    #+#             */
-/*   Updated: 2026/11/25 17:12:50 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/26 13:53:48 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,8 +51,8 @@ typedef	struct s_game
 // juste de témoin : "C'est bon, cette couleur a déjà été définie plus haut".
 
 /* errors_check.c */
-void	double_def_tex(char *name, char *texture, t_game *game, int fd);
-void	double_def_col(char *name, int color, t_game *game, int fd);
+int	double_def_tex(char *name, char *texture, t_game *game, int fd);
+int	double_def_col(char *name, int color, t_game *game, int fd);
 void	init_struct(t_game *game);
 int		check_textures(t_game *game);
 void	check_unknown_id(char *line, t_game *game, int fd);
@@ -73,13 +73,11 @@ int		map_closed_verif(t_game *game);
 void	free_grid(char **grid, t_game *game);
 void	free_textures(t_game *game);
 void	cleanup_parsing(t_game *game, int fd);
-void	empty_gnl(int fd);
-
 
 /* map_texture_utils.c */
 void	parse_texture(char *line, int *i, char **dest, int len);
 int		map_exist(int ac, char **av, int *fd);
-int		is_map_line(char *line, t_game *game);
+int		is_map_line(char *line);
 void	remove_newline(char *line);
 
 /* map_texture.c */

@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/08/11 12:44:30 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/25 17:14:38 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/26 16:24:00 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,39 +47,78 @@ static int	add_map_line(t_game *game, char *line)
 }
 // on aggrandi le tableau petit a petit avec ca parce qu'on a pas une taille decise du tableau
 
-static void	handle_config_line(char *line, t_game *game, int fd)
+//static void	handle_texcol_line(char *line, t_game *game, int fd)
+//{
+	//if (!textures_p1(line, game, fd) && !textures_p2(line, game, fd)
+		//&& !check_colors(line, game, fd))
+		//check_unknown_id(line, game, fd);
+	//free(line);
+//}
+
+int handle_texcol_line(char *line, t_game *game, int fd)
 {
-	if (!textures_p1(line, game, fd) && !textures_p2(line, game, fd)
-		&& !check_colors(line, game, fd))
-		check_unknown_id(line, game, fd);
-	free(line);
+    int ret;
+
+    ret = textures_p1(line, game, fd);
+    if (ret == -1)
+        return (-1);
+    if (ret == 0)
+    {
+        ret = textures_p2(line, game, fd);
+        if (ret == -1)
+            return (-1);
+    }
+    if (ret == 0)
+    {
+        ret = check_colors(line, game, fd);
+        if (ret == -1)
+            return (-1);
+    }
+    if (ret == 0)
+        check_unknown_id(line, game, fd);
+    return (1);
 }
 
-int	read_map(int fd, t_game *game)
+static int	read_map_lines(int fd, t_game *game)
 {
 	char	*line;
+	int		i;
+	int     ret;
 
 	line = get_next_line(fd);
 	while (line)
 	{
 		remove_newline(line);
-		if (is_map_line(line, game))
+		i = 0;
+		while (line[i] == ' ' || line[i] == '\t')
+			i++;
+		if (game->height > 0 && !line[i])
+			return (write(2, "Error: Empty line in map.\n", 26),
+				free(line), cleanup_parsing(game, fd), 1);
+		if (is_map_line(line))
 		{
 			if (!add_map_line(game, line))
 				return (free(line), cleanup_parsing(game, fd), 1);
 		}
 		else
-			handle_config_line(line, game, fd);
+		{
+            ret = handle_texcol_line(line, game, fd);
+            if (ret == -1)
+                return (free(line), cleanup_parsing(game, fd), 1);
+        }
 		line = get_next_line(fd);
 	}
+	return (0);
+}
+
+int	read_map(int fd, t_game *game)
+{
+	if (read_map_lines(fd, game))
+		return (1);
 	close(fd);
-	if (check_textures(game))
+	if (check_textures(game) || !game->map || !game->height)
 		return (cleanup_parsing(game, -1), 1);
-	if (!game->map || game->height == 0)
-		return (cleanup_parsing(game, -1), 1);
-	if (!validate_map(game))
-		return (cleanup_parsing(game, -1), 1);
-	if (!map_closed_verif(game))
+	if (!validate_map(game) || !map_closed_verif(game))
 		return (cleanup_parsing(game, -1), 1);
 	return (0);
 }

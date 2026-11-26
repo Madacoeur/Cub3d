@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/20 17:23:40 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/25 16:57:04 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/26 11:49:51 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	validate_map(t_game *game)
 		}
 		y++;
 	}
+	if (players != 1) // si c'est pas un seul player donc le booleen est incorrect ca renvoie direct 0
+		return (write(2, "Error: Wrong number of player.\n", 32), 0);
 	return (players == 1); // si c'est bien un seul player donc le booleen est correct ca renvoie direct 1
 }
 // sert a verifier que la map est valide en verifiant que toutes les lignes existent,

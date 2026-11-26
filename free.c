@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/25 16:56:41 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/25 17:05:48 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/26 12:25:07 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,29 +39,19 @@ void	free_textures(t_game *game)
 	game->we_texture = NULL;
 }
 
-void	empty_gnl(int fd)
-{
-	char	*pipi;
-
-	if (fd < 0)
-		return ;
-	pipi = get_next_line(fd);
-	while (pipi)
-	{
-		free(pipi);
-		pipi = get_next_line(fd);
-	}
-}
-
 void	cleanup_parsing(t_game *game, int fd)
 {
-	free_textures(game);
-	if (game->map)
+	if (game)
 	{
-		free_grid(game->map, game);
-		game->map = NULL;
+		free_textures(game);
+		if (game->map)
+		{
+			free_grid(game->map, game);
+			game->map = NULL;
+		}
 	}
-	empty_gnl(fd);
+	get_next_line(-1);
 	if (fd >= 0)
 		close(fd);
 }
+//gnl -1 parce que quand on fd < 0 ca compte le -1 donc on free comme dans la fonction

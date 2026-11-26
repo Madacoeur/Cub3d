@@ -6,7 +6,7 @@
 /*   By: rzimaeva <rzimaeva@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2026/11/24 14:20:44 by rzimaeva          #+#    #+#             */
-/*   Updated: 2026/11/24 16:24:20 by rzimaeva         ###   ########.fr       */
+/*   Updated: 2026/11/26 13:53:39 by rzimaeva         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,25 +70,24 @@ int	map_exist(int ac, char **av, int *fd)
 // longueur des strings qu'on lui donne avec les 4 caracteres de ".cub"
 // on ouvre le fichier pour le lire seulement
 
-int	is_map_line(char *line, t_game *game)
+//static int	has_all_texcol(t_game *game)
+//{
+	//return (game->no_texture && game->so_texture
+		//&& game->ea_texture && game->we_texture
+		//&& game->f_already_def && game->c_already_def);
+//}
+
+int	is_map_line(char *line)
 {
 	int	i;
 
-	if (!game->no_texture || !game->so_texture || !game->ea_texture
-		|| !game->we_texture || !game->f_already_def || !game->c_already_def)
-		return (0);
+	//if (!has_all_texcol(game))
+		//return (0);
 	i = 0;
 	while (line[i] == ' ' || line[i] == '\t')
 		i++;
 	if (!line[i])
-	{
-		if (game->height > 0)
-		{
-			write(2, "Error: Empty line in map.\n", 26);
-			exit(1);
-		}
 		return (0);
-	}
 	if ((!ft_strncmp(&line[i], "NO", 2)
 			|| !ft_strncmp(&line[i], "SO", 2)
 			|| !ft_strncmp(&line[i], "EA", 2)
